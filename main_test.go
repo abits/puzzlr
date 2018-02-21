@@ -23,11 +23,19 @@ type testTripleInt struct {
 	num int
 }
 
+type testTripleBoards struct {
+	board1 Board
+	board2 Board
+	expect int
+}
+
 var testBoards = []Board{
 	Board{{0, 5, 6},{2, 3, 1},{7, 4, 8}},
 	Board{{0, 1, 2},{3, 4, 5},{6, 7, 8}},
 	Board{{0, 5, 9},{2, 3, 1},{7, 4, 8}},
 	Board{{0, 5, 9},{2, 1},{7, 4, 8}},
+	Board{{1, 2, 3},{8, 0, 4},{7, 6, 5}},
+	Board{{5, 2, 3},{8, 0, 4},{7, 6, 1}},
 }
 
 var validationTests = []testPair{
@@ -49,6 +57,10 @@ var findPosTests = []testTripleInt{
 	{ testBoards[0], 8, 2, 2},
 }
 
+var diffTests = []testTripleBoards{
+	{ testBoards[5], testBoards[4], 8 },
+}
+
 func TestValidate(t *testing.T) {
 	for _, pair := range(validationTests) {
 		if pair.board.validate() != pair.expect {
@@ -61,6 +73,19 @@ func TestValidate(t *testing.T) {
 	}	
 }
 
+func TestDiff(t *testing.T) {
+	for _, pair := range(diffTests) {
+		if pair.board1.diff(pair.board2) != pair.expect {
+			t.Error(
+        		"For", pair.board1,
+        		"expected", pair.expect,
+        		"got", pair.board1.diff(pair.board2),
+     		)
+		} 
+	}	
+	t.Logf("%d", testBoards[5].diff(testBoards[4]))
+
+}
 
 func TestFindPos(t *testing.T) {
 	for _, pair := range(findPosTests) {

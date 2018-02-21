@@ -42,6 +42,22 @@ func (board1 Board) equal(board2 Board) bool {
 	return reflect.DeepEqual(board1, board2)
 }
 
+func (board1 Board) diff(board2 Board) (delta int) {
+	for i := 1; i < 10; i++ {
+		a, b := board1.findPos(i)
+		c, d := board2.findPos(i)
+		delta = delta + abs(a-c) + abs(b-d)
+	}
+	return 
+}
+
+func abs(n int) int {
+	if n < 0 {
+   		n = -n
+	}
+	return n
+}
+
 func (board Board) validate() bool {
 	if len(board) != 3 {
 		return false
