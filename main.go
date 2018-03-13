@@ -5,10 +5,10 @@ package main
 // 2. Let n be the first element of L. Compare this state with the final state. 
 //    If they are identical, stop with success.
 // 3. Apply to n all available search operators, thus obtaining a set of
-//    new states. Discard those states that already exist in L seen . As for
+//    new states. Discard those states that already exist in L seen. As for
 //    the rest, sort them by the evaluation function and place them 
 //    at the front of L.
-// 4. Transfer n from L into the list, L seen , of the states that
+// 4. Transfer n from L into the list, L seen, of the states that
 //    have been investigated.
 // 5. If L = ∅, stop and report failure. Otherwise, go to 2.
 // Excerpt from: Miroslav Kubat. "An Introduction to Machine Learning."
@@ -40,6 +40,39 @@ func (board Board) print() {
 
 func (board1 Board) equal(board2 Board) bool {
 	return reflect.DeepEqual(board1, board2)
+}
+
+func (board Board) findNeighbors() (neighbors [][]int){
+	zeroRow, zeroCol := board.findPos(0)
+	if (zeroRow + 1) <= 2 {
+		neighbors = append(neighbors, []int{zeroRow + 1, zeroCol})
+	}
+	if (zeroRow -1  >= 0) {
+		neighbors = append(neighbors, []int{zeroRow - 1, zeroCol})
+	}
+	if (zeroCol -1 >= 0 ) {
+		neighbors = append(neighbors, []int{zeroRow, zeroCol - 1})
+	}
+	if (zeroCol + 1 <= 2) {
+		neighbors = append(neighbors, []int{zeroRow, zeroCol + 1})
+	}
+	return
+}
+
+func (board Board) moveTile(pos []int) {
+	row, num := board.findPos(0)
+	board[row][num] = board[pos[0]][pos[1]]
+	board[pos[0]][pos[1]] = 0
+}
+
+func (board Board) search() (newStates Boards) {
+	neighbors := board.findNeighbors()
+	for _, pos := range(neighbors) {
+		board.moveTile(pos)
+		board.print()
+		newStates = append(newStates, board)
+	}
+	return
 }
 
 func (board1 Board) diff(board2 Board) (delta int) {
@@ -98,7 +131,7 @@ func (board Board) flatten() (flat []int) {
 }
 
 func main() {
-	//board1.print()
-	//fmt.Println(board1.flatten())
-	//fmt.Printf("%v", board())
+	board := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
+	board.print()
+	board.search()
 }
