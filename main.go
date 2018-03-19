@@ -19,7 +19,7 @@ import (
 	"reflect"
 )
 
-type Board [][]int
+type Board [3][3]int
 type Boards []Board
 type BoardsSeen []Board
 
@@ -59,17 +59,17 @@ func (board Board) findNeighbors() (neighbors [][]int){
 	return
 }
 
-func (board Board) moveTile(pos []int) {
+func (board *Board) moveTile(pos []int) {
 	row, num := board.findPos(0)
 	board[row][num] = board[pos[0]][pos[1]]
 	board[pos[0]][pos[1]] = 0
 }
 
-func (board Board) search() (newStates Boards) {
-	neighbors := board.findNeighbors()
+func (orig Board) search() (newStates Boards) {
+	neighbors := orig.findNeighbors()
 	for _, pos := range(neighbors) {
+		board := orig
 		board.moveTile(pos)
-		board.print()
 		newStates = append(newStates, board)
 	}
 	return
@@ -90,6 +90,13 @@ func abs(n int) int {
 	}
 	return n
 }
+
+//func deepCopy(dst Board, src Board) { 
+	//for i := range src {
+        //dst[i] = make([3]int, len(src[i]))
+        //copy(dst[i], src[i])
+	//}
+//}
 
 func (board Board) validate() bool {
 	if len(board) != 3 {
@@ -133,5 +140,8 @@ func (board Board) flatten() (flat []int) {
 func main() {
 	board := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
 	board.print()
-	board.search()
+	newStates := board.search()
+	for _, i := range newStates {
+		i.print()
+	}
 }
