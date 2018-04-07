@@ -137,11 +137,64 @@ func (board Board) flatten() (flat []int) {
 	return
 }
 
+func contains(boards []Board, board Board) bool {
+	for _, val := range boards {
+		if val == board {
+			return true 
+		}
+	}
+	return false
+}
+
+func del(boards []Board, board Board) ([]Board) {
+	for i, val := range boards {
+		if val == board {
+			boards = append(boards[:i], boards[i+1:]...)
+		}
+	}
+	return boards
+}
+
+
 func main() {
 	board := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
+	goal := Board{{1, 2, 3}, {4, 0, 5}, {6, 7, 8}}
 	board.print()
 	newStates := board.search()
 	for _, i := range newStates {
 		i.print()
+		fmt.Printf("%v\n", i.diff(goal))
 	}
+	boardsSeen := BoardsSeen{}
+	boards := Boards{board}
+	for !(goal.equal(boards[0])) {
+		// find possible new states
+		newStates := boards[0].search()
+		m := make(map[int]Board)
+		for _, i := range newStates {
+			// remove states already seen
+			if contains(boardsSeen, i) {
+				newStates = del(newStates, i)
+			}
+			m[i.diff(goal)] = i
+			i.print()
+			fmt.Printf("%v\n", i.diff(goal))
+		}
+		// sort remaining states by their distance to goal
+		var keys []int
+		for k := range m {
+       		keys = append(keys, k)
+    	}
+    	sort.Ints(keys)
+		boardsNew := []Board{}
+		for _, k := range keys {
+       	 	boardsNew = append(boardsNew, m[k])
+    	}
+		// prepend sorted states to boards list
+		boards = append(boardsNew, boards...)
+		// move current state to seen
+		boardsSeen = append(boardsSeen, boards[0])
+		boards = boards[1:]
+			
+	} 	
 }
