@@ -155,46 +155,59 @@ func del(boards []Board, board Board) ([]Board) {
 	return boards
 }
 
+func removeSeen(states []Board, boardsSeen BoardsSeen) (unseen []Board) {
+	for _, i := range states {
+		if contains(boardsSeen, i) {
+			states = del(states, i)
+		}
+	}
+	unseen = states
+	return
+}
 
-func main() {
-	board := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
-	goal := Board{{1, 2, 3}, {4, 0, 5}, {6, 7, 8}}
-	board.print()
-	newStates := board.search()
-	for _, i := range newStates {
+func sortStates(states []Board, goal Board) (sorted []Board) {
+	
+	m := make(map[int]Board)
+	
+	for _, i := range states {
+		m[i.diff(goal)] = i
+	}
+	// sort remaining states by their distance to goal
+	var keys []int
+	for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Ints(keys)
+	for _, k := range keys {
+    	sorted = append(sorted, m[k])
+    }
+	
+	return
+}
+
+func debug(prefix string, states []Board, goal Board) {
+	fmt.Println(prefix)
+	for _, i := range states {
 		i.print()
 		fmt.Printf("%v\n", i.diff(goal))
 	}
+}
+
+func main() {
+	initial := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
+	goal := Board{{1, 2, 3}, {4, 0, 5}, {6, 7, 8}}
+	boards := Boards{initial}
 	boardsSeen := BoardsSeen{}
-	boards := Boards{board}
-	for !(goal.equal(boards[0])) {
-		// find possible new states
-		newStates := boards[0].search()
-		m := make(map[int]Board)
-		for _, i := range newStates {
-			// remove states already seen
-			if contains(boardsSeen, i) {
-				newStates = del(newStates, i)
-			}
-			m[i.diff(goal)] = i
-			i.print()
-			fmt.Printf("%v\n", i.diff(goal))
-		}
-		// sort remaining states by their distance to goal
-		var keys []int
-		for k := range m {
-       		keys = append(keys, k)
-    	}
-    	sort.Ints(keys)
-		boardsNew := []Board{}
-		for _, k := range keys {
-       	 	boardsNew = append(boardsNew, m[k])
-    	}
-		// prepend sorted states to boards list
-		boards = append(boardsNew, boards...)
-		// move current state to seen
+	firstBoard := boards[0]
+	for !(goal.equal(firstBoard)) {
+		firstBoard.print()
+		newStates := firstBoard.search()
+		newStates = removeSeen(newStates, boardsSeen)
+		newStates = sortStates(newStates, goal)
 		boardsSeen = append(boardsSeen, boards[0])
 		boards = boards[1:]
-			
+		boards = append(newStates, boards...)
+		firstBoard = boards[0]
 	} 	
+	firstBoard.print()
 }
