@@ -59,6 +59,7 @@ func (board Board) findNeighbors() (neighbors [][]int){
 	return
 }
 
+// move a tile as given by a position on a board to the empty position 
 func (board *Board) moveTile(pos []int) {
 	row, num := board.findPos(0)
 	board[row][num] = board[pos[0]][pos[1]]
@@ -137,6 +138,7 @@ func (board Board) flatten() (flat []int) {
 	return
 }
 
+// check whether a slice of boards contains a board
 func contains(boards []Board, board Board) bool {
 	for _, val := range boards {
 		if val == board {
@@ -146,6 +148,7 @@ func contains(boards []Board, board Board) bool {
 	return false
 }
 
+// remove a board from a slice of board and return the reduced slice
 func del(boards []Board, board Board) ([]Board) {
 	for i, val := range boards {
 		if val == board {
