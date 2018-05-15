@@ -15,6 +15,7 @@ package main
 
 import (
     "fmt"
+	"encoding/json"
 	"sort"
 	"reflect"
 )
@@ -22,6 +23,16 @@ import (
 type Board [3][3]int
 type Boards []Board
 type BoardsSeen []Board
+
+type step struct {
+	Pos int `json:"pos"`
+	Delta int `json:"delta"`
+	State Board `json:"state"`
+}
+
+type history struct {
+	List []step `json:"list"`
+}
 
 func (board Board) print() {
 	fmt.Printf("+---+---+---+\n")
@@ -202,8 +213,13 @@ func main() {
 	boards := Boards{initial}
 	boardsSeen := BoardsSeen{}
 	firstBoard := boards[0]
+	history := history{}
+	count := 0
 	for !(goal.equal(firstBoard)) {
-		firstBoard.print()
+		//firstBoard.print()
+		step := step{count, goal.diff(firstBoard), firstBoard}
+		count = count + 1
+		history.List = append(history.List, step)	
 		newStates := firstBoard.search()
 		newStates = removeSeen(newStates, boardsSeen)
 		newStates = sortStates(newStates, goal)
@@ -212,5 +228,13 @@ func main() {
 		boards = append(newStates, boards...)
 		firstBoard = boards[0]
 	} 	
-	firstBoard.print()
+	//for _, i := range(history.List) {
+		//fmt.Println(i.Pos)
+		//fmt.Println(i.Delta)
+		//i.State.print()
+
+	//}
+	h, _ := json.Marshal(history)
+	fmt.Println(string(h))
+	//firstBoard.print()
 }
