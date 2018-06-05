@@ -17,7 +17,9 @@ import (
     "fmt"
 	"encoding/json"
 	"sort"
+	"net/http"
 	"reflect"
+	"github.com/gorilla/mux"
 )
 
 type Board [3][3]int
@@ -207,7 +209,8 @@ func debug(prefix string, states []Board, goal Board) {
 	}
 }
 
-func main() {
+
+func process() history {
 	initial := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
 	goal := Board{{1, 2, 3}, {4, 0, 5}, {6, 7, 8}}
 	boards := Boards{initial}
@@ -216,7 +219,6 @@ func main() {
 	history := history{}
 	count := 0
 	for !(goal.equal(firstBoard)) {
-		//firstBoard.print()
 		step := step{count, goal.diff(firstBoard), firstBoard}
 		count = count + 1
 		history.List = append(history.List, step)	
@@ -228,13 +230,22 @@ func main() {
 		boards = append(newStates, boards...)
 		firstBoard = boards[0]
 	} 	
-	//for _, i := range(history.List) {
-		//fmt.Println(i.Pos)
-		//fmt.Println(i.Delta)
-		//i.State.print()
+	return history
+}
 
-	//}
-	h, _ := json.Marshal(history)
-	fmt.Println(string(h))
-	//firstBoard.print()
+func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/process", func(w http.ResponseWriter, r *http.Request) {
+		hist := process()
+    	h, err := json.Marshal(hist)  
+		if err != nil {
+    		http.Error(w, err.Error(), http.StatusInternalServerError)
+    		return
+		}
+    	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    	w.WriteHeader(http.StatusOK)
+		w.Write(h)
+	})
+
+	http.ListenAndServe(":8080", r)
 }
