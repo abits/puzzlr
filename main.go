@@ -16,6 +16,7 @@ package main
 import (
     "fmt"
 	"encoding/json"
+	"io/ioutil"
 	"sort"
 	"net/http"
 	"reflect"
@@ -210,8 +211,8 @@ func debug(prefix string, states []Board, goal Board) {
 }
 
 
-func process() history {
-	initial := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
+func process(initial Board) history {
+	//initial := Board{{7, 5, 6},{2, 3, 1},{0, 4, 8}}
 	goal := Board{{1, 2, 3}, {4, 0, 5}, {6, 7, 8}}
 	boards := Boards{initial}
 	boardsSeen := BoardsSeen{}
@@ -233,19 +234,30 @@ func process() history {
 	return history
 }
 
+func postProcessHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var board Board
+    b, _ := ioutil.ReadAll(r.Body)
+    json.Unmarshal(b, &board)
+	if board.validate() != true {
+    	http.Error(w, "Invalid input board.", http.StatusInternalServerError)
+        return
+	}
+	
+	hist := process(board)
+    h, err := json.Marshal(hist)  
+	if err != nil {
+    	http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+	}
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusOK)
+	w.Write(h)
+}
+
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/process", func(w http.ResponseWriter, r *http.Request) {
-		hist := process()
-    	h, err := json.Marshal(hist)  
-		if err != nil {
-    		http.Error(w, err.Error(), http.StatusInternalServerError)
-    		return
-		}
-    	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-    	w.WriteHeader(http.StatusOK)
-		w.Write(h)
-	})
-
+	r.HandleFunc("/process", postProcessHandler).Methods("POST") 
 	http.ListenAndServe(":8080", r)
 }
