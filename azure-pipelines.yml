@@ -8,5 +8,10 @@ pool:
 
 steps:
 - script: |
-    docker build -t 'puzzlr:$(Build.BuildId)' .  # add options to this command to meet your needs
+    docker build -t '$(dockerId):$(Build.BuildId)' .  # add options to this command to meet your needs
   displayName: 'Build docker image'
+
+- script: |
+    docker login -u $(dockerId).azurecr.io -p $(azurecr.Password) $(dockerid).azurecr.io
+    docker push $(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)
+  displayName: 'Push to Azure container registry'
