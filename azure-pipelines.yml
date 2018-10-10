@@ -8,5 +8,5 @@ pool:
 
 steps:
 - script: |
-    docker build -t $(dockerId)/$(dockerImage) .  # add options to this command to meet your needs
+    docker build -t 'puzzlr:$(Build.BuildId)' .  # add options to this command to meet your needs
   displayName: 'Build docker image'
