@@ -14,3 +14,9 @@
 .glide/
 
 *.*.swp
+
+.vscode/
+
+puzzlr
+
+vendor/
