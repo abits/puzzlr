@@ -12,6 +12,6 @@ steps:
   displayName: 'Build docker image'
 
 - script: |
-    docker login -u $(dockerId).azurecr.io -p $(azurecr.Password) $(dockerid).azurecr.io
+    docker login -u $(dockerId) -p $(azurecr.Password) $(dockerid).azurecr.io
     docker push $(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)
   displayName: 'Push to Azure container registry'
