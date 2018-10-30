@@ -17,6 +17,7 @@ steps:
   displayName: 'Push to Azure container registry'
 
 - script: |
+    helm init --canary-image --upgrade
     helm package puzzlr-app
   displayName: 'Package helm chart'
 
