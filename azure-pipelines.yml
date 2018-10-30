@@ -21,3 +21,8 @@ steps:
     helm package puzzlr-app
   displayName: 'Package helm chart'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifact: helm chart'
+  inputs:
+    pathtoPublish: 'puzzlr-app-0.1.$(Build.BuildId).tgz'
+    artifactName: 'puzzlr-app-0.1.$(Build.BuildId).tgz'
