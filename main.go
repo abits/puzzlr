@@ -258,5 +258,5 @@ func postProcessHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/process", postProcessHandler).Methods("POST")
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":80", r)
 }
