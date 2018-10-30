@@ -15,3 +15,8 @@ steps:
     docker login -u $(dockerId) -p $(azurecr.Password) $(dockerid).azurecr.io
     docker push $(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)
   displayName: 'Push to Azure container registry'
+
+- script: |
+    helm package puzzlr-app
+  displayName: 'Package helm chart'
+
