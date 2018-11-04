@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: puzzlr.azurecr.io/puzzlr
-  tag: 19
+  tag: 28
   pullPolicy: IfNotPresent
 
 nameOverride: ""
