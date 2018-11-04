@@ -16,10 +16,6 @@ steps:
     docker push $(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)
   displayName: 'Push to Azure container registry'
 
-- script: |
-    helm init --canary-image --upgrade
-  displayName: 'Package helm chart'
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifact: helm chart'
   inputs:
