@@ -17,7 +17,7 @@ steps:
   displayName: 'Push to Azure container registry'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish artifact: helm chart'
+  displayName: 'Publish artifact: deployment yaml'
   inputs:
-    pathtoPublish: 'puzzlr-app'
-    artifactName: 'puzzlr-app'
+    pathtoPublish: 'puzzlr-app-deployment.yaml'
+    artifactName: 'puzzlr-app-deployment,yaml'
