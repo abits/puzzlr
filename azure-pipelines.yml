@@ -20,4 +20,4 @@ steps:
   displayName: 'Publish artifact: deployment yaml'
   inputs:
     pathtoPublish: 'puzzlr-app-deployment.yaml'
-    artifactName: 'puzzlr-app-deployment,yaml'
+    artifactName: 'puzzlr-app-deployment.yaml'
