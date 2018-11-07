@@ -10,7 +10,7 @@ variables:
   imageName: '$(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)'
 
 steps:
-- script: script: docker build -f Dockerfile -t $(imageName) .
+- script: docker build -f Dockerfile -t $(imageName) .
   displayName: 'Build docker image'
 
 - script: |
