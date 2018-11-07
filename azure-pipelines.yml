@@ -7,8 +7,13 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'your-container-image-name:$(build.buildId)'
+  imageName: '$(dockerId).azurecr.io/$(dockerId):$(Build.BuildId)'
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: script: docker build -f Dockerfile -t $(imageName) .
+  displayName: 'Build docker image'
+
+- script: |
+    docker login -u $(dockerId) -p $(azurecr.Password) $(dockerid).azurecr.io
+    docker push $(imageName)
+  displayName: 'Push to Azure container registry'
