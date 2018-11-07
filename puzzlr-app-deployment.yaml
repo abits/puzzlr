@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: puzzlr-app
-        image: puzzlr.azurecr.io/puzzlr:$(Build.BuildId)
+        image: puzzlr.azurecr.io/puzzlr:$(Release.Artifacts._puzzlr.BuildId)
         resources:
           requests:
             cpu: 100m
