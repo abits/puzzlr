@@ -11,7 +11,7 @@ install:
 
 script:
   - go build -o puzzlr .
-  - docker build -t puzzlr/puzzlr .
+  - docker build -t cmartel/puzzlr .
 
 deploy:
   skip_cleanup: true
