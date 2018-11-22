@@ -11,7 +11,7 @@
 FROM alpine
 RUN adduser -S -D -H -h /app appuser
 USER appuser
-COPY --from=builder /build/puzzlr /app/
+COPY puzzlr /app/
 WORKDIR /app
 EXPOSE 80
 CMD ["./puzzlr"]
