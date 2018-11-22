@@ -14,5 +14,6 @@ script:
   - docker build -t puzzlr/puzzlr .
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: bash docker-push.sh
