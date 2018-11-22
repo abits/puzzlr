@@ -8,3 +8,6 @@ services:
 script:
   - docker build -t puzzlr/puzzlr .
 
+deploy:
+  - bash docker-push.sh
+
