@@ -9,5 +9,5 @@ script:
   - docker build -t puzzlr/puzzlr .
 
 deploy:
-  - bash docker-push.sh
-
+  provider: script
+  script: bash docker-push.sh
