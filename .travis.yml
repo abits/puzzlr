@@ -14,6 +14,8 @@ script:
   - docker build -t cmartel/puzzlr .
 
 deploy:
-  skip_cleanup: true
-  provider: script
-  script: bash docker-push.sh
+  - provider: script
+    skip_cleanup: true
+    script: bash deploy_rollup.sh
+    on:
+      branch: master
