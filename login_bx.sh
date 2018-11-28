@@ -21,9 +21,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "Setp Bluemix API endpoint"
-bx api https://api.eu-de.bluemix.net
-
 # Init container clusters
 echo "bx cs init"
 bx cs init
