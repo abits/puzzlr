@@ -11,12 +11,15 @@ chmod +x /tmp/Bluemix_CLI/bin/*
 
 export PATH="/tmp/Bluemix_CLI/bin:$PATH"
 
+# Configure bluemix
+bx config --check-version false
+
 # Install Armada CS plugin
 echo "Install the Bluemix container-service plugin"
 bx plugin install container-service -r Bluemix
 
-echo "Setp Bluemix API endpoint"
-yes | bx api https://api.eu-de.bluemix.net
+echo "Setup Bluemix API endpoint"
+bx api https://api.eu-de.bluemix.net
 
 echo "Install kubectl"
 wget --quiet --output-document=/tmp/Bluemix_CLI/bin/kubectl  https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
