@@ -22,6 +22,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# set target resourcegroup
+echo "bx target -g $BLUEMIX_RESOURCEGROUP"
+bx target -g "$BLUEMIX_RESOURCEGROUP"
+if [ $? -ne 0 ]; then
+  echo "Failed to set Bluemix target resourcegroup"
+  exit 1
+fi
+
 # Init container clusters
 echo "bx cs init"
 bx cs init
