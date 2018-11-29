@@ -12,6 +12,7 @@ install:
 script:
   - go build -o puzzlr .
   - docker build -t cmartel/puzzlr .
+  - bash docker_push.sh
 
 deploy:
   - provider: script
