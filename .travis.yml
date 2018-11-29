@@ -7,14 +7,14 @@ services:
 
 jobs:
   include:
-    - stage: test app
+    - stage: Run unit tets
       script:  
       - go test -v
-    - stage: package app
+    - stage: Build and publish image
       script: 
       - docker build -t cmartel/puzzlr .
       - bash docker_push.sh
-    - stage: deploy to bluemix
+    - stage: Deploy to Bluemix
       provider: script
       skip_cleanup: true
       script: bash deploy_bluemix.sh
