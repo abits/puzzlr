@@ -10,8 +10,6 @@ jobs:
     - stage: build app
       script: 
       - docker build -t cmartel/puzzlr .
-    - stage: publish docker image
-      script: 
       - bash docker_push.sh
     - stage: deploy to bluemix
       provider: script
