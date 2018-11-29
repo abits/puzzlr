@@ -17,6 +17,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"reflect"
 	"sort"
@@ -256,7 +257,9 @@ func postProcessHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	log.Println("Starting application server.")
 	r := mux.NewRouter()
 	r.HandleFunc("/process", postProcessHandler).Methods("POST")
+	log.Println("Listening on port 80.")
 	http.ListenAndServe(":80", r)
 }
