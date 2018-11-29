@@ -29,14 +29,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: puzzlr-app
+  name: puzzlr-service
   labels:
-    run: puzzlr-app
+    name: puzzlr-service
 spec:
+  selector:
+    name: puzzlr-service
   type: NodePort
   ports:
-  - port: 8080
-    protocol: TCP
-    name: http
-  selector:
-    run: puzzlr-app
+   - port: 8080
+  
