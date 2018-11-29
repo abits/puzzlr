@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: puzzlr-app
-        image: hub.docker.com/cmartel/puzzlr:latest
+        image: cmartel/puzzlr:latest
         resources:
           requests:
             cpu: 100m
