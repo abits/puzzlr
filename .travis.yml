@@ -7,7 +7,7 @@ services:
 
 jobs:
   include:
-    - stage: Run unit tets
+    - stage: Run unit tests
       script:  
       - go test -v
     - stage: Build and publish image
