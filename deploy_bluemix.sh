@@ -121,7 +121,7 @@ curl --silent "https://raw.githubusercontent.com/abits/puzzlr/master/k8s-deploy.
 echo -e "Creating pods"
 kubectl apply -f k8s-deploy.yaml
 
-PORT=$(kubectl get services | grep frontend | sed 's/.*:\([0-9]*\).*/\1/g')
+PORT=$(kubectl get services | grep puzzlr-service | sed 's/.*:\([0-9]*\).*/\1/g')
 
 echo ""
 echo "View the app at http://$IP_ADDR:$PORT"
