@@ -5,12 +5,7 @@ language: go
 services:
   - docker
 
-install:
-  - go get -u github.com/golang/dep/cmd/dep
-  - dep ensure
-
 script:
-  - go build -o puzzlr .
   - docker build -t cmartel/puzzlr .
   - bash docker_push.sh
 
