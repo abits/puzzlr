@@ -33,7 +33,6 @@ metadata:
   labels:
     run: puzzlr-app
 spec:
-  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
