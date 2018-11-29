@@ -12,6 +12,6 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash deploy_rollup.sh
+    script: bash deploy_bluemix.sh
     on:
       branch: master
