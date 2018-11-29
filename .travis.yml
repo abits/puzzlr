@@ -7,7 +7,10 @@ services:
 
 jobs:
   include:
-    - stage: build app
+    - stage: test app
+      script:  
+      - go test -v
+    - stage: package app
       script: 
       - docker build -t cmartel/puzzlr .
       - bash docker_push.sh
