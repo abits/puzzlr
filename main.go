@@ -261,5 +261,5 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/process", postProcessHandler).Methods("POST")
 	log.Println("Listening on port 80.")
-	http.ListenAndServe(":80", r)
+	log.Fatal(http.ListenAndServe(":80", r))
 }
