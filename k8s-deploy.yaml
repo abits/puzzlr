@@ -34,7 +34,7 @@ metadata:
     name: puzzlr-service
 spec:
   selector:
-    name: puzzlr-service
+    app: puzzlr-app
   type: NodePort
   ports:
    - port: 8080
