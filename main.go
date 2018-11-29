@@ -260,6 +260,6 @@ func main() {
 	log.Println("Starting application server.")
 	r := mux.NewRouter()
 	r.HandleFunc("/process", postProcessHandler).Methods("POST")
-	log.Println("Listening on port 80.")
-	log.Fatal(http.ListenAndServe(":80", r))
+	log.Println("Listening on port 8080.")
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
