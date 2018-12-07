@@ -22,6 +22,7 @@ import (
 	"reflect"
 	"sort"
 
+	"github.com/alecthomas/template"
 	"github.com/gorilla/mux"
 )
 
@@ -256,10 +257,22 @@ func postProcessHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(h)
 }
 
+func getHelloHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("hello.tpl")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	tmpl.Execute(w, nil)
+}
+
 func main() {
 	log.Println("Starting application server.")
 	r := mux.NewRouter()
 	r.HandleFunc("/process", postProcessHandler).Methods("POST")
+	r.HandleFunc("/hello", getHelloHandler).Methods("GET")
 	log.Println("Listening on port 8080.")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
