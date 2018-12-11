@@ -17,7 +17,7 @@ jobs:
       script:  
       - go test -v
     - stage: Run static code analysis
-      script: sonar-scanner
+      script: sonar-scanner -X -Dsonar.projectKey=abits_puzzlr -Dsonar.sources=.
     - stage: Build and publish image
       script: 
       - docker build -t cmartel/puzzlr .
