@@ -12,6 +12,9 @@ chmod +x /tmp/Bluemix_CLI/bin/*
 
 export PATH="/tmp/Bluemix_CLI/bin:$PATH"
 
+# Update bluemix
+bx update
+
 # Configure bluemix
 bx config --check-version false
 
