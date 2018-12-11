@@ -15,9 +15,9 @@ jobs:
   include:
     - stage: Run unit tests
       script:  
-      - go test -v
+      - go test -v -coverprofile=coverage.out
     - stage: Run static code analysis
-      script: sonar-scanner -X -Dsonar.projectKey=abits_puzzlr -Dsonar.sources=. -Dsonar.tests=.
+      script: sonar-scanner -X -Dsonar.projectKey=abits_puzzlr -Dsonar.sources=. -Dsonar.go.coverage.reportPaths=./coverage.out
     - stage: Build and publish image
       script: 
       - docker build -t cmartel/puzzlr .
