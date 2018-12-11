@@ -10,6 +10,13 @@ jobs:
     - stage: Run unit tests
       script:  
       - go test -v
+    - stage: Run static code analyis
+      sonarcloud:
+        organization: "abits-github"
+        token:
+          secure: $SONAR_TOKEN
+
+  - sonar-scanner
     - stage: Build and publish image
       script: 
       - docker build -t cmartel/puzzlr .
