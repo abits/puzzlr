@@ -16,7 +16,7 @@ jobs:
     - stage: Run unit tests
       script:  
       - go test -v
-    - stage: Run static code analyis
+    - stage: Run static code analysis
       script: sonar-scanner
     - stage: Build and publish image
       script: 
