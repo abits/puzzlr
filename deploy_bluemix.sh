@@ -12,11 +12,8 @@ chmod +x /tmp/Bluemix_CLI/bin/*
 
 export PATH="/tmp/Bluemix_CLI/bin:$PATH"
 
-# Update bluemix
-echo "yes" | bx update
-
 # Configure bluemix
-# bx config --check-version false
+bx config --check-version false
 
 # Install Armada CS plugin
 echo "Install the Bluemix container-service plugin"
